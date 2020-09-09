@@ -1,4 +1,4 @@
-package com.bakigoal.security.config.basic;
+package com.bakigoal.security.config;
 
 import com.bakigoal.security.domain.MyUser;
 import com.bakigoal.security.repository.UserRepo;
@@ -9,15 +9,17 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Slf4j
-public class BasicUserDetailsService implements UserDetailsService {
+@Service
+public class MyUserDetailsService implements UserDetailsService {
 
     private final UserRepo userRepo;
 
-    public BasicUserDetailsService(UserRepo userRepo) {
+    public MyUserDetailsService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
