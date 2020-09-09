@@ -1,6 +1,6 @@
 package com.bakigoal.security;
 
-import com.bakigoal.security.domain.MyAuthority;
+import com.bakigoal.security.domain.Role;
 import com.bakigoal.security.domain.MyUser;
 import com.bakigoal.security.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +30,8 @@ public class SecurityDemoApplication {
     @PostConstruct
     public void init() {
         // test users
-        userRepo.save(MyUser.create("admin", passwordEncoder.encode("password"), MyAuthority.ROLE_ADMIN));
-        userRepo.save(MyUser.create("user", passwordEncoder.encode("password"), MyAuthority.ROLE_USER));
+        userRepo.save(MyUser.create("admin", passwordEncoder.encode("password"), Role.ROLE_ADMIN));
+        userRepo.save(MyUser.create("user", passwordEncoder.encode("password"), Role.ROLE_USER));
 
         log.info("" + userRepo.findAll());
     }

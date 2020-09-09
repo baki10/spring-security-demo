@@ -14,14 +14,14 @@ public class MyUser {
     private UUID id;
     private String name;
     private String password;
-    private MyAuthority myAuthority;
+    private Role role;
 
-    public static MyUser create(String name, String password, MyAuthority myAuthority) {
+    public static MyUser create(String name, String password, Role role) {
         MyUser myUser = new MyUser();
         myUser.setId(UUID.randomUUID());
         myUser.setName(name);
         myUser.setPassword(password);
-        myUser.setMyAuthority(myAuthority);
+        myUser.setRole(role);
         return myUser;
     }
 }

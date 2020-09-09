@@ -1,6 +1,6 @@
 package com.bakigoal.security.config;
 
-import com.bakigoal.security.domain.MyAuthority;
+import com.bakigoal.security.domain.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,7 +37,7 @@ public abstract class AbstractSecurityConfig extends WebSecurityConfigurerAdapte
     private Customizer<AnonymousConfigurer<HttpSecurity>> anonymousConfigurer() {
         return anonymousConfigurer -> anonymousConfigurer.principal(
                 new User("anonymous", "anonymous",
-                        Collections.singletonList(new SimpleGrantedAuthority(MyAuthority.ROLE_ANONYMOUS.name()))
+                        Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_ANONYMOUS.name()))
                 )
         );
     }
