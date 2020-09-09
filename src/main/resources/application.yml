@@ -1,0 +1,5 @@
+app:
+  security:
+    type: jwt # chose from [basic, jwt]
+    jwt:
+      secret: IamSecret
