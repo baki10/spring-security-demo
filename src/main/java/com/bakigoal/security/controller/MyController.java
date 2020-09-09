@@ -1,0 +1,42 @@
+package com.bakigoal.security.controller;
+
+import com.bakigoal.security.config.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@Slf4j
+public class MyController {
+
+    @GetMapping("/")
+    public String hello() {
+        logUser();
+        return "Hello world!";
+    }
+
+    @GetMapping("/public")
+    public String pub() {
+        logUser();
+        return "Hello public world!";
+    }
+
+    @GetMapping("/user")
+    public String securedUser() {
+        logUser();
+        return "This Url is Secured!";
+    }
+
+    @GetMapping("/admin")
+    public String securedAdmin() {
+        logUser();
+        return "This is ADMIN Page!";
+    }
+
+    private void logUser() {
+        SecurityUtil.getCurrentUser().ifPresentOrElse(
+                user -> log.info("User: {}, {}", user.getUsername(), user.getAuthorities()),
+                () -> log.error("No user")
+        );
+    }
+}
