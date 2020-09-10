@@ -30,6 +30,10 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(userDetails, secret);
+    }
+
     /**
      * 1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
      * 2. Sign the JWT using the HS512 algorithm and secret key.
