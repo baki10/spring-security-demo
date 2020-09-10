@@ -26,6 +26,6 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
 
-        return new MyUserDetails(username, myUser.getPassword(), myUser.getRole());
+        return new MyUserDetails(username, myUser.getPassword(), myUser.getRoles());
     }
 }

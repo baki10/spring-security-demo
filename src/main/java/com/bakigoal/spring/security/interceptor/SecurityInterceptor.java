@@ -26,9 +26,8 @@ public class SecurityInterceptor {
     @Before("execution(public * com.bakigoal.spring.service..*(..)) && @annotation(allow)")
     public void checkPermissions(Allow allow) {
         MyUserDetails userDetails = Auth.getCurrentUser().orElseThrow(() -> new AccessCheckException("No user"));
-        var userRole = userDetails.getRole();
-        var hasAccess = List.of(allow.roles()).stream()
-                .anyMatch(role -> role.equals(userRole));
+        var userRoles = userDetails.getRoles();
+        var hasAccess = List.of(allow.roles()).stream().anyMatch(userRoles::contains);
 
         if (!hasAccess) {
             String errorMessage = String.format("User: %s - has NO access", userDetails.getUsername());

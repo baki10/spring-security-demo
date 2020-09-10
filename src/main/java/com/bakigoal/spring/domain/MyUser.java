@@ -3,25 +3,24 @@ package com.bakigoal.spring.domain;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.UUID;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 public class MyUser {
 
     @Id
-    private UUID id;
+    @GeneratedValue
+    private int id;
     private String name;
     private String password;
-    private Role role;
 
-    public static MyUser create(String name, String password, Role role) {
-        MyUser myUser = new MyUser();
-        myUser.setId(UUID.randomUUID());
-        myUser.setName(name);
-        myUser.setPassword(password);
-        myUser.setRole(role);
-        return myUser;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<DbRole> roles = new ArrayList<>();
+
 }

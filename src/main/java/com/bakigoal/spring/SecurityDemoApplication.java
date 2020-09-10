@@ -1,8 +1,7 @@
 package com.bakigoal.spring;
 
 import com.bakigoal.spring.domain.Role;
-import com.bakigoal.spring.domain.MyUser;
-import com.bakigoal.spring.repository.UserRepo;
+import com.bakigoal.spring.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,11 +16,11 @@ import javax.annotation.PostConstruct;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Slf4j
 public class SecurityDemoApplication {
-    private final UserRepo userRepo;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public SecurityDemoApplication(UserRepo userRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
+    public SecurityDemoApplication(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -32,12 +31,16 @@ public class SecurityDemoApplication {
     @PostConstruct
     public void init() {
         // test users
-        userRepo.save(MyUser.create("admin", passwordEncoder.encode("password"), Role.ROLE_ADMIN));
-        userRepo.save(MyUser.create("user", passwordEncoder.encode("password"), Role.ROLE_USER));
-        userRepo.save(MyUser.create("hr", passwordEncoder.encode("password"), Role.ROLE_HR));
-        userRepo.save(MyUser.create("dev", passwordEncoder.encode("password"), Role.ROLE_DEV));
+        create("admin", Role.ROLE_ADMIN, Role.ROLE_USER);
+        create("user", Role.ROLE_USER);
+        create("hr", Role.ROLE_HR);
+        create("dev", Role.ROLE_DEV, Role.ROLE_USER);
 
-        log.info("" + userRepo.findAll());
+        log.info("" + userService.findAll());
+    }
+
+    private void create(String name, Role... roles) {
+        userService.createUserWithRoles(name, passwordEncoder.encode("password"), roles);
     }
 
 }

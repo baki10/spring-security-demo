@@ -1,6 +1,7 @@
 package com.bakigoal.spring.config.security;
 
 import com.bakigoal.spring.config.security.common.MyUserDetails;
+import com.bakigoal.spring.domain.DbRole;
 import com.bakigoal.spring.domain.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
@@ -12,6 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.AnonymousC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @EnableWebSecurity
 public abstract class AbstractSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,7 +37,7 @@ public abstract class AbstractSecurityConfig extends WebSecurityConfigurerAdapte
 
     private Customizer<AnonymousConfigurer<HttpSecurity>> anonymousConfigurer() {
         return anonymousConfigurer -> anonymousConfigurer.principal(
-                new MyUserDetails("anonymous", "anonymous", Role.ROLE_ANONYMOUS)
+                new MyUserDetails("anonymous", Collections.singletonList(Role.ROLE_ANONYMOUS))
         );
     }
 
