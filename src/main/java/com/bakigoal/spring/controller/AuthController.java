@@ -12,20 +12,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/jwt")
 @Slf4j
 public class AuthController {
+
+    public static final String JWT_AUTH_URL = "/jwt/authenticate";
 
     private final MyUserAuthenticationProvider authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
 
-    @PostMapping("/authenticate")
+    @PostMapping(JWT_AUTH_URL)
     public ResponseEntity<JwtResponse> getToken(@RequestBody JwtRequest authRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
