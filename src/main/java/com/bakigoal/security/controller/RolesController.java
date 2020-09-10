@@ -22,4 +22,9 @@ public class RolesController {
     public String user() {
         return rolesService.getUserData();
     }
+
+    @GetMapping("/userOrAdmin")
+    public String userAdmin() {
+        return rolesService.getUserOrAdminData();
+    }
 }

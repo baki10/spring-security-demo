@@ -1,12 +1,11 @@
 package com.bakigoal.security.controller;
 
+import com.bakigoal.security.config.MyUserDetails;
 import com.bakigoal.security.config.jwt.JwtTokenUtil;
+import com.bakigoal.security.util.security.Auth;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -55,16 +53,9 @@ public class MyController {
     }
 
     private void logUser() {
-        Optional.ofNullable(SecurityContextHolder.getContext())
-                .map(SecurityContext::getAuthentication)
-                .map(Authentication::getPrincipal)
-                .ifPresentOrElse(obj -> {
-                    if (obj instanceof User) {
-                        User user = (User) obj;
-                        log.info("User: {}, {}", user.getUsername(), user.getAuthorities());
-                    } else {
-                        log.info("User is: {}", obj.toString());
-                    }
-                }, () -> log.error("No user"));
+        Auth.getCurrentUser().ifPresentOrElse(
+                user -> log.info("User: {}, {}", user.getUsername(), user.getAuthorities()),
+                () -> log.error("No user")
+        );
     }
 }

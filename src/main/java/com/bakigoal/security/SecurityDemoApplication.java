@@ -34,6 +34,8 @@ public class SecurityDemoApplication {
         // test users
         userRepo.save(MyUser.create("admin", passwordEncoder.encode("password"), Role.ROLE_ADMIN));
         userRepo.save(MyUser.create("user", passwordEncoder.encode("password"), Role.ROLE_USER));
+        userRepo.save(MyUser.create("hr", passwordEncoder.encode("password"), Role.ROLE_HR));
+        userRepo.save(MyUser.create("dev", passwordEncoder.encode("password"), Role.ROLE_DEV));
 
         log.info("" + userRepo.findAll());
     }

@@ -36,9 +36,7 @@ public abstract class AbstractSecurityConfig extends WebSecurityConfigurerAdapte
 
     private Customizer<AnonymousConfigurer<HttpSecurity>> anonymousConfigurer() {
         return anonymousConfigurer -> anonymousConfigurer.principal(
-                new User("anonymous", "anonymous",
-                        Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_ANONYMOUS.name()))
-                )
+                new MyUserDetails("anonymous", "anonymous", Role.ROLE_ANONYMOUS)
         );
     }
 

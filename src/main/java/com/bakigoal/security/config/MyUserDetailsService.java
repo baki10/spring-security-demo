@@ -31,9 +31,6 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
 
-        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(myUser.getRole().name()));
-
-        return new User(username, myUser.getPassword(), authorities);
+        return new MyUserDetails(username, myUser.getPassword(), myUser.getRole());
     }
 }
