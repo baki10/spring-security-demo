@@ -9,8 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,28 +25,19 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void saveUser(MyUser user) {
-        userRepo.save(user);
-    }
-
-    public void saveRole(DbRole dbRole) {
-        dbRoleRepo.save(dbRole);
-    }
-
-
     public void createUserWithRoles(String name, String password, Role... roles) {
         MyUser user = new MyUser();
         user.setName(name);
         user.setPassword(password);
-
-        List<DbRole> dbRoles = new ArrayList<>();
-        for (Role role : roles) {
-            DbRole dbRole = new DbRole();
-            dbRole.setRole(role);
-            dbRoleRepo.save(dbRole);
-            dbRoles.add(dbRole);
-        }
-        user.setRoles(dbRoles);
+        user.setRoles(
+                Arrays.stream(roles).map(this::saveRole).collect(Collectors.toList())
+        );
         userRepo.save(user);
+    }
+
+    private DbRole saveRole(Role role) {
+        var dbRole = new DbRole();
+        dbRole.setRole(role);
+        return dbRoleRepo.save(dbRole);
     }
 }
