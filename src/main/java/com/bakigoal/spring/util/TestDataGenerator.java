@@ -1,4 +1,4 @@
-package com.bakigoal.spring;
+package com.bakigoal.spring.util;
 
 import com.bakigoal.spring.domain.Role;
 import com.bakigoal.spring.service.UserService;
