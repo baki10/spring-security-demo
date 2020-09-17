@@ -1,7 +1,6 @@
 package com.bakigoal.spring.config.security.jwt;
 
 import com.bakigoal.spring.config.security.AbstractSecurityConfig;
-import com.bakigoal.spring.controller.AuthController;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,7 +26,7 @@ public class JwtSecurityConfig extends AbstractSecurityConfig {
     @Override
     public void configure(WebSecurity web) {
         super.configure(web);
-        web.ignoring().antMatchers(AuthController.JWT_AUTH_URL);
+        web.ignoring().antMatchers(JwtAuthController.JWT_AUTH_URL);
     }
 
     @Override
