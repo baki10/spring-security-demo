@@ -1,4 +1,4 @@
-package com.bakigoal.spring.config.security.jwt;
+package com.bakigoal.spring.config.security.jwt.exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

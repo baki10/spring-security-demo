@@ -27,8 +27,8 @@ public abstract class AbstractSecurityConfig extends WebSecurityConfigurerAdapte
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/user", "/roles/**", "/**").authenticated()
                 .and().authorizeRequests().antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+                .and().authorizeRequests().antMatchers("/user", "/roles/**", "/**").authenticated()
                 .and().anonymous(anonymousConfigurer());
     }
 

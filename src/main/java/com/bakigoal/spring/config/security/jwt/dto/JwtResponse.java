@@ -1,4 +1,4 @@
-package com.bakigoal.spring.config.security.jwt;
+package com.bakigoal.spring.config.security.jwt.dto;
 
 import java.io.Serializable;
 

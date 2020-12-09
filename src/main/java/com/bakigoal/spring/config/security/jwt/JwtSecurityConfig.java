@@ -1,6 +1,10 @@
 package com.bakigoal.spring.config.security.jwt;
 
 import com.bakigoal.spring.config.security.AbstractSecurityConfig;
+import com.bakigoal.spring.config.security.jwt.exception.JwtAuthenticationEntryPoint;
+import com.bakigoal.spring.config.security.jwt.filter.JwtRequestFilter;
+import com.bakigoal.spring.config.security.jwt.provider.JwtAuthenticationProvider;
+import com.bakigoal.spring.controller.JwtAuthController;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,10 +21,15 @@ public class JwtSecurityConfig extends AbstractSecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtRequestFilter jwtRequestFilter;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(userDetailsService())
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .authenticationProvider(jwtAuthenticationProvider);
     }
 
     @Override
