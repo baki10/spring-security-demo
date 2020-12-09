@@ -33,24 +33,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        final String tokenHeader = request.getHeader("Authorization");
-        var token = getBearerToken(tokenHeader);
-        if (token.isPresent()) {
-            var username = extractUsernameFromToken(token.get());
-            if (username.isPresent() && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails user = this.myUserDetailsService.loadUserByUsername(username.get());
-                if (jwtTokenUtil.validateToken(token.get(), user)) {
+        if (SecurityContextHolder.getContext().getAuthentication() != null) { // already authenticated
+            chain.doFilter(request, response);
+            return;
+        }
+        getBearerToken(request).ifPresent(token -> {
+            extractUsernameFromToken(token).ifPresent(username -> {
+                UserDetails user = this.myUserDetailsService.loadUserByUsername(username);
+                if (jwtTokenUtil.validateToken(token, user)) {
                     var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     log.info("Authenticated: {}", user.getUsername());
                 }
-            }
-        }
+            });
+        });
         chain.doFilter(request, response);
     }
 
-    private Optional<String> getBearerToken(String tokenHeader) {
+    private Optional<String> getBearerToken(HttpServletRequest request) {
+        final String tokenHeader = request.getHeader("Authorization");
         if (tokenHeader == null || !tokenHeader.startsWith(BEARER_PREFIX)) {
             log.warn("JWT Token does not begin with Bearer String");
             return Optional.empty();
