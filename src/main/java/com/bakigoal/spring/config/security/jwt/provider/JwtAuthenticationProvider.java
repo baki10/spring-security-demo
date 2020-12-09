@@ -1,5 +1,6 @@
 package com.bakigoal.spring.config.security.jwt.provider;
 
+import com.bakigoal.spring.config.security.jwt.exception.GettingUserFromTokenException;
 import com.bakigoal.spring.config.security.jwt.util.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,7 +44,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         try {
             return jwtTokenUtil.getUsernameFromToken(token);
         } catch (Exception e) {
-            throw new UsernameNotFoundException("Could not get username form token");
+            throw new GettingUserFromTokenException("Could not get username form token");
         }
     }
 }
