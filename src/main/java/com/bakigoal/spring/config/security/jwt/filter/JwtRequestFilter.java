@@ -3,7 +3,6 @@ package com.bakigoal.spring.config.security.jwt.filter;
 import com.bakigoal.spring.config.security.jwt.provider.JwtAuthentication;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,7 +16,6 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-@ConditionalOnProperty(name = "app.security.type", havingValue = "jwt")
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -36,7 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private Optional<String> getBearerToken(HttpServletRequest request) {
-        final String tokenHeader = request.getHeader("Authorization");
+        final var tokenHeader = request.getHeader("Authorization");
         if (tokenHeader == null || !tokenHeader.startsWith(BEARER_PREFIX)) {
             log.warn("JWT Token does not begin with Bearer String");
             return Optional.empty();

@@ -1,6 +1,6 @@
 package com.bakigoal.spring.security.interceptor;
 
-import com.bakigoal.spring.config.security.common.MyUserDetails;
+import com.bakigoal.spring.config.security.common.SecurityUser;
 import com.bakigoal.spring.exception.AccessCheckException;
 import com.bakigoal.spring.security.annotation.Allow;
 import com.bakigoal.spring.security.Auth;
@@ -25,7 +25,7 @@ public class SecurityInterceptor {
      */
     @Before("execution(public * com.bakigoal.spring.service..*(..)) && @annotation(allow)")
     public void checkPermissions(Allow allow) {
-        MyUserDetails userDetails = Auth.getCurrentUser().orElseThrow(() -> new AccessCheckException("No user"));
+        SecurityUser userDetails = Auth.getCurrentUser().orElseThrow(() -> new AccessCheckException("No user"));
         var userRoles = userDetails.getRoles();
         var hasAccess = List.of(allow.roles()).stream().anyMatch(userRoles::contains);
 

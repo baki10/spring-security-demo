@@ -4,7 +4,6 @@ import com.bakigoal.spring.config.security.jwt.exception.GettingUserFromTokenExc
 import com.bakigoal.spring.config.security.jwt.util.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(name = "app.security.type", havingValue = "jwt")
 @AllArgsConstructor
 @Slf4j
 public class JwtAuthenticationProvider implements AuthenticationProvider {

@@ -1,12 +1,11 @@
 package com.bakigoal.spring.controller;
 
-import com.bakigoal.spring.config.security.common.MyUserAuthenticationProvider;
+import com.bakigoal.spring.config.security.common.UsernamePasswordAuthProvider;
 import com.bakigoal.spring.config.security.jwt.dto.JwtRequest;
 import com.bakigoal.spring.config.security.jwt.dto.JwtResponse;
 import com.bakigoal.spring.config.security.jwt.util.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@ConditionalOnProperty(name = "app.security.type", havingValue = "jwt")
 @AllArgsConstructor
 @Slf4j
 public class JwtAuthController {
 
-    public static final String JWT_AUTH_URL = "/jwt/authenticate";
+    public static final String JWT_AUTH_URL = "/jwt/token";
 
-    private final MyUserAuthenticationProvider authenticationProvider;
+    private final UsernamePasswordAuthProvider authenticationProvider;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
 

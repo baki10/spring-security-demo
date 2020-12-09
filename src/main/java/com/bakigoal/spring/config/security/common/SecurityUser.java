@@ -10,19 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class MyUserDetails extends User {
+public class SecurityUser extends User {
 
     private final List<Role> roles;
 
-    public MyUserDetails(String username, String password, List<DbRole> dbRoles) {
+    public SecurityUser(String username, String password, List<DbRole> dbRoles) {
         super(username, password, dbRoles.stream().map(DbRole::getRole)
                 .map(r -> new SimpleGrantedAuthority(r.name())).collect(Collectors.toList()));
         this.roles = dbRoles.stream().map(DbRole::getRole).collect(Collectors.toList());
-    }
-
-    public MyUserDetails(String username, List<Role> roles) {
-        super(username, username, roles.stream()
-                .map(r -> new SimpleGrantedAuthority(r.name())).collect(Collectors.toList()));
-        this.roles = roles;
     }
 }

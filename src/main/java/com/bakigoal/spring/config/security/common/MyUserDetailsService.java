@@ -1,6 +1,5 @@
 package com.bakigoal.spring.config.security.common;
 
-import com.bakigoal.spring.domain.MyUser;
 import com.bakigoal.spring.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,12 +19,12 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser myUser = userRepo.findByName(username);
-        if (myUser == null) {
+        var user = userRepo.findByName(username);
+        if (user == null) {
             log.info("User " + username + " was not found in the database");
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
 
-        return new MyUserDetails(username, myUser.getPassword(), myUser.getRoles());
+        return new SecurityUser(username, user.getPassword(), user.getRoles());
     }
 }
