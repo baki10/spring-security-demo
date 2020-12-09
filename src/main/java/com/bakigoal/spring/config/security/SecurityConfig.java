@@ -1,12 +1,11 @@
 package com.bakigoal.spring.config.security;
 
+import com.bakigoal.spring.config.security.exception.MyAuthenticationEntryPoint;
 import com.bakigoal.spring.config.security.common.UsernamePasswordAuthProvider;
-import com.bakigoal.spring.config.security.common.MyAuthenticationEntryPoint;
 import com.bakigoal.spring.config.security.jwt.filter.JwtRequestFilter;
 import com.bakigoal.spring.config.security.jwt.provider.JwtAuthenticationProvider;
 import com.bakigoal.spring.controller.JwtAuthController;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final UsernamePasswordAuthProvider usernamePasswordAuthProvider;
 
-    @Autowired
+    @Override
     public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(usernamePasswordAuthProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
@@ -39,9 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 .and().authorizeRequests().antMatchers("/user", "/roles/**", "/**").authenticated();
 
-        http.httpBasic();
         http.exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint);
-        // Add a filter to validate the tokens with every request
+
+        // support both BASIC and Token-based authentication
+        http.httpBasic();
         http.addFilterBefore(jwtRequestFilter, BasicAuthenticationFilter.class);
     }
 }

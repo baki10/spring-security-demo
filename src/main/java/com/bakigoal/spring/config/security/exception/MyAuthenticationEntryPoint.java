@@ -1,6 +1,5 @@
-package com.bakigoal.spring.config.security.common;
+package com.bakigoal.spring.config.security.exception;
 
-import com.bakigoal.spring.config.security.jwt.dto.JwtAuthError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +27,6 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint, Ser
         log.error("Authentication error: {}", message);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        mapper.writeValue(response.getOutputStream(), new JwtAuthError(message));
+        mapper.writeValue(response.getOutputStream(), new AuthErrorDto(message));
     }
 }

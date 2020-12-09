@@ -22,23 +22,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        getBearerToken(request).ifPresent(
-                token -> {
-                    if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                        SecurityContextHolder.getContext().setAuthentication(new JwtAuthentication(token));
-                    }
-                });
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        getBearerToken(request).ifPresent(token -> {
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                SecurityContextHolder.getContext().setAuthentication(new JwtAuthentication(token));
+            }
+        });
         chain.doFilter(request, response);
     }
 
     private Optional<String> getBearerToken(HttpServletRequest request) {
-        final var tokenHeader = request.getHeader("Authorization");
-        if (tokenHeader == null || !tokenHeader.startsWith(BEARER_PREFIX)) {
-            log.warn("JWT Token does not begin with Bearer String");
+        final var authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
+            log.warn("Not Bearer Authorization header!");
             return Optional.empty();
         }
-        return Optional.of(tokenHeader.substring(BEARER_PREFIX.length()));
+        return Optional.of(authHeader.substring(BEARER_PREFIX.length()));
     }
 }
