@@ -1,6 +1,6 @@
 package com.bakigoal.spring.config.security;
 
-import com.bakigoal.spring.config.security.exception.MyAuthenticationEntryPoint;
+import com.bakigoal.spring.config.security.common.MyAuthenticationEntryPoint;
 import com.bakigoal.spring.config.security.common.UsernamePasswordAuthProvider;
 import com.bakigoal.spring.config.security.jwt.filter.JwtRequestFilter;
 import com.bakigoal.spring.config.security.jwt.provider.JwtAuthenticationProvider;

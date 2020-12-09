@@ -1,4 +1,4 @@
-package com.bakigoal.spring.config.security.exception;
+package com.bakigoal.spring.config.security.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
