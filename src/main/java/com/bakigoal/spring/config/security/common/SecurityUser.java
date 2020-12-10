@@ -1,19 +1,21 @@
 package com.bakigoal.spring.config.security.common;
 
 import com.bakigoal.spring.domain.Role;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
 public class SecurityUser extends User {
 
-    private final List<Role> roles;
-
-    public SecurityUser(String username, String password, List<Role> roles, List<? extends GrantedAuthority> authorities) {
+    public SecurityUser(String username, String password, List<SecurityAuthority> authorities) {
         super(username, password, authorities);
-        this.roles = roles;
+    }
+
+    public List<Role> getRoles() {
+        return super.getAuthorities().stream()
+                .map(grantedAuthority -> (SecurityAuthority) grantedAuthority)
+                .map(SecurityAuthority::getRole)
+                .collect(Collectors.toList());
     }
 }
