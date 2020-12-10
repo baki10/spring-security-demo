@@ -32,16 +32,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/", JwtAuthController.JWT_AUTH_URL).permitAll()
-                .and().authorizeRequests().antMatchers("/admin").hasRole("ADMIN")
-                .and().authorizeRequests().antMatchers("/user", "/roles/**", "/**").authenticated();
-
-        http.exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint);
-
         // support both BASIC and Token-based authentication
         http.httpBasic();
         http.addFilterBefore(jwtRequestFilter, BasicAuthenticationFilter.class);
+
+        // authorize requests
+        http.authorizeRequests().antMatchers("/", JwtAuthController.JWT_AUTH_URL).permitAll()
+                .and().authorizeRequests().antMatchers("/admin").hasRole("ADMIN")
+                .and().authorizeRequests().antMatchers("/user", "/roles/**", "/**").authenticated();
+
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint);
     }
 }
