@@ -31,7 +31,7 @@ public class MyController {
 
     private void logUser() {
         Auth.getCurrentUser().ifPresentOrElse(
-                user -> log.info("User: {}, {}", user.getUsername(), user.getAuthorities()),
+                user -> log.info("User: {}, {}", user.getUsername(), user.getRoles()),
                 () -> log.error("No user")
         );
     }
