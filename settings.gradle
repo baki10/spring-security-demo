@@ -1,1 +1,4 @@
 rootProject.name = 'security-demo'
+
+include("jwt-token-demo")
+include("oauth2-sso-client")
