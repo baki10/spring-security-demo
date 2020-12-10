@@ -13,6 +13,7 @@ public class Auth {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(Authentication::getPrincipal)
+                .filter(user -> user instanceof SecurityUser)
                 .map(o -> (SecurityUser) o);
     }
 }
