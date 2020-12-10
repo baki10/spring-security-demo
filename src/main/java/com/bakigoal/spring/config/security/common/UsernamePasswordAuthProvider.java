@@ -6,11 +6,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -30,11 +27,7 @@ public class UsernamePasswordAuthProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Wrong password");
         }
 
-        var authorityList = ((SecurityUser) user).getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .collect(Collectors.toList());
-
-        return new UsernamePasswordAuthenticationToken(user, password, authorityList);
+        return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
     }
 
     @Override

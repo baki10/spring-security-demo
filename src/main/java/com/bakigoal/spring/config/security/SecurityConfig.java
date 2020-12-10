@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/", JwtAuthController.JWT_AUTH_URL).permitAll()
-                .and().authorizeRequests().antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+                .and().authorizeRequests().antMatchers("/admin").hasRole("ADMIN")
                 .and().authorizeRequests().antMatchers("/user", "/roles/**", "/**").authenticated();
 
         http.exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint);

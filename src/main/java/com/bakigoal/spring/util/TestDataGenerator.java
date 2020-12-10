@@ -19,10 +19,10 @@ public class TestDataGenerator {
 
     @PostConstruct
     public void init() {
-        createUser("admin", Role.ROLE_ADMIN, Role.ROLE_USER);
-        createUser("user", Role.ROLE_USER);
-        createUser("hr", Role.ROLE_HR);
-        createUser("dev", Role.ROLE_DEV, Role.ROLE_USER);
+        createUser("admin", Role.ADMIN, Role.USER);
+        createUser("user", Role.USER);
+        createUser("hr", Role.HR);
+        createUser("dev", Role.DEV, Role.USER);
 
         log.info("!!! USERS:" + userService.findAll());
     }

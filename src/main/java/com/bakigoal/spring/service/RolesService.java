@@ -19,7 +19,7 @@ public class RolesService {
         return "User data";
     }
 
-    @Allow(roles = {Role.ROLE_ADMIN, Role.ROLE_USER})
+    @Allow(roles = {Role.ADMIN, Role.USER})
     public String getUserOrAdminData() {
         return "User and Admin can see this data";
     }
