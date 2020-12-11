@@ -4,6 +4,8 @@ import com.bakigoal.keycloakdemo.model.Workout;
 import com.bakigoal.keycloakdemo.repository.WorkoutRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +30,12 @@ public class WorkoutService {
      * For this method, we already applied
      * filtering at the repository layer.
      */
-    public List<Workout> finWorkouts() {
-        return workoutRepository.findAllByUser();
+    public List<Workout> findWorkouts() {
+        return workoutRepository.findAllByUsername(getName());
+    }
+
+    private String getName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     /**

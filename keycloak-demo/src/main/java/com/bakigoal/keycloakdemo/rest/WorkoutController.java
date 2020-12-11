@@ -21,7 +21,7 @@ public class WorkoutController {
 
     @GetMapping("/")
     public List<Workout> workouts() {
-        return workoutService.finWorkouts();
+        return workoutService.findWorkouts();
     }
 
     @DeleteMapping("/{id}")
