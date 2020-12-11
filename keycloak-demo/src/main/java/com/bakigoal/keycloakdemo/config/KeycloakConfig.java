@@ -53,9 +53,4 @@ public class KeycloakConfig extends ResourceServerConfigurerAdapter {
                 .anyRequest().authenticated();
     }
 
-//    @Bean
-//    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
-//        return new SecurityEvaluationContextExtension();
-//    }
-
 }
